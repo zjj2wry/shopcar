@@ -9,8 +9,7 @@ if(isset($_SESSION['SESS_CHANGEID']) == TRUE) {
 }
 
 require("config.php");
-$db = mysqli_connect($dbhost, $dbuser, $dbpassword);
-mysqli_select_db($dbdatabase, $db);
+$db = mysqli_connect($dbhost,$dbuser,$dbpassword,$dbdatabase) or die("数据库连接失败".mysql_error());
 mysqli_query($db, "SET NAMES 'UTF8'");
 ?>
 

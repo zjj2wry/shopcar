@@ -1,7 +1,7 @@
 <h1>商品分类</h1>
 <ul>
 <?php
-
+	require("header.php");
 	$catsql = "SELECT * FROM categories;";
 	$catres = mysqli_query($db, $catsql);
 
