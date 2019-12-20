@@ -16,14 +16,14 @@ if ($_POST['submit'])
 	//查询是否有用户登录
 	$loginsql = "SELECT * FROM logins WHERE username = '" . $_POST['userBox'] . "' AND password = '" . $_POST['passBox'] . "'";
 	//echo $loginsql;
-	$loginres = mysql_query($loginsql);
-	$numrows = mysql_num_rows($loginres);
+	$loginres = mysqli_query($loginsql);
+	$numrows = mysqli_num_rows($loginres);
 
 	// $numrows 为1时表示有用户登录，其他则为没有用户登录
 	if($numrows == 1)
 	{
 		//取出数据库值
-		$loginrow = mysql_fetch_assoc($loginres);
+		$loginrow = mysqli_fetch_assoc($loginres);
 
 		//注册会话 php 5.4后这个函数被弃用无需注册
 		//session_register("SESS_LOGGEDIN");
@@ -37,8 +37,8 @@ if ($_POST['submit'])
 
 		$ordersql = "SELECT id FROM orders WHERE customer_id = " . $_SESSION['SESS_USERID'] . " AND status < 2";
 		echo $ordersql;
-		$orderres = mysql_query($ordersql);
-		$orderrow = mysql_fetch_assoc($orderres);
+		$orderres = mysqli_query($ordersql);
+		$orderrow = mysqli_fetch_assoc($orderres);
 
 		// 存在订单就将查询到的订单号赋值给变量$_SESSION['SESS_ORDERNUM']
 		//session_register("SESS_ORDERNUM");
