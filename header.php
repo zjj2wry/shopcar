@@ -11,7 +11,7 @@ if(isset($_SESSION['SESS_CHANGEID']) == TRUE) {
 require("config.php");
 $db = mysqli_connect($dbhost, $dbuser, $dbpassword);
 mysqli_select_db($dbdatabase, $db);
-mysqli_query("SET NAMES 'UTF8'");
+mysqli_query($db, "SET NAMES 'UTF8'");
 ?>
 
 <!doctype html>

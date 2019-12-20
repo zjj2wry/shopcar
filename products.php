@@ -8,7 +8,7 @@
 
 	// 从数据库中选取于网页get到的id一致的分类下所有商品  并将取到的结果赋给变量$numrows
 	$prodcatsql = "SELECT * FROM products WHERE cat_id = " . $_GET['id'] . ";";
-	$prodcatres = mysqli_query($prodcatsql);
+	$prodcatres = mysqli_query($db, $prodcatsql);
 	$numrows = mysqli_numrows($prodcatres);
 
 	/* if语句判断$numrows取值，为0显示没有商品，

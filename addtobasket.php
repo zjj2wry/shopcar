@@ -7,7 +7,7 @@ $validid = pf_validate_number($_GET['id'], "redirect", $config_basedir);
 
 // 从数据库中选取和传入商品id一致的数据
 $prodsql = "select * FROM products WHERE id = " . $_GET['id'] . ";";
-$prodres = mysqli_query($prodsql);
+$prodres = mysqli_query($db, $prodsql);
 $numrows = mysqli_num_rows($prodres);
 $prodrow = mysqli_fetch_assoc($prodres);
 
@@ -23,7 +23,7 @@ if($numrows == 0) {
 		//判断用户定单号是否存在 存在就把购买商品数量插入到数据库orderitems表单中
 		if ($_SESSION['SESS_ORDERNUM']) {
 				$itemsql = "INSERT INTO orderitems(order_id, product_id, quantity) VALUES(". $_SESSION['SESS_ORDERNUM'] . ", " . $_GET['id'] . ", " . $_POST['amountBox'] . ")";
-				mysqli_query($itemsql);
+				mysqli_query($db, $itemsql);
 		} else {
 			/*用户订单号不存在就判断用户是否登陆
 			 * 1、用户登陆  则执行  将 $_SESSION['SESS_USERID']作为用户customer——id插入到orders表中，将产生的值赋值给$_session['SESS_ORDERNUM']然后添加购买数量
@@ -32,17 +32,17 @@ if($numrows == 0) {
 			if ($_SESSION['SESS_LOGGEDIN']) {
 				//用户已登录
 				$sql = "INSERT INTO orders(customer_id, registered, date) VALUES(" . $_SESSION['SESS_USERID'] . ", 1, NOW())";
-				mysqli_query($sql);
+				mysqli_query($db, $sql);
 				$_SESSION['SESS_ORDERNUM'] = mysqli_insert_id();
 				$itemsql = "INSERT INTO orderitems(order_id, product_id, quantity) VALUES(". $_SESSION['SESS_ORDERNUM'] . ", " . $_GET['id'] . ", " . $_POST['amountBox'] . ")";
-				mysqli_query($itemsql);
+				mysqli_query($db, $itemsql);
 
 			} else {
 // 				用户未登录
 				$sql = "INSERT INTO orders(registered, date, session) VALUES(" . "0, NOW(), '" . session_id() . "')";
 				//echo "<br />***************<br />";
 				//var_dump($sql);
-				mysqli_query($sql);
+				mysqli_query($db, $sql);
 				$_SESSION['SESS_ORDERNUM'] = mysqli_insert_id();
 				//echo "<br />***************<br />";
 				//var_dump($_SESSION['SESS_ORDERNUM']);
@@ -50,7 +50,7 @@ if($numrows == 0) {
 				//echo "<br />***************<br />";
 				//var_dump($itemsql);
 				//echo "<br />***************<br />";
-				mysqli_query($itemsql);
+				mysqli_query($db, $itemsql);
 
 			}
 		}
@@ -61,7 +61,7 @@ if($numrows == 0) {
 		$upsql = "UPDATE orders SET total = total + " . $totalprice . " WHERE id = " . $_SESSION['SESS_ORDERNUM'] . ";";
 
 		//echo $upsql;
-		mysqli_query($upsql);
+		mysqli_query($db, $upsql);
 		//var_dump($abc);
 
 

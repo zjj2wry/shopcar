@@ -16,7 +16,7 @@ if ($_POST['submit'])
 	//查询是否有用户登录
 	$loginsql = "SELECT * FROM logins WHERE username = '" . $_POST['userBox'] . "' AND password = '" . $_POST['passBox'] . "'";
 	//echo $loginsql;
-	$loginres = mysqli_query($loginsql);
+	$loginres = mysqli_query($db, $loginsql);
 	$numrows = mysqli_num_rows($loginres);
 
 	// $numrows 为1时表示有用户登录，其他则为没有用户登录
@@ -37,7 +37,7 @@ if ($_POST['submit'])
 
 		$ordersql = "SELECT id FROM orders WHERE customer_id = " . $_SESSION['SESS_USERID'] . " AND status < 2";
 		echo $ordersql;
-		$orderres = mysqli_query($ordersql);
+		$orderres = mysqli_query($db, $ordersql);
 		$orderrow = mysqli_fetch_assoc($orderres);
 
 		// 存在订单就将查询到的订单号赋值给变量$_SESSION['SESS_ORDERNUM']

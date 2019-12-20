@@ -11,7 +11,7 @@ showcart();
 //检测是否存在订单号
 if (isset($_SESSION['SESS_ORDERNUM']) ==TRUE) {
 	$sql = "select * from orderitems where order_id = " . $_SESSION['SESS_ORDERNUM'] . ";";
-	$result =mysqli_query($sql);
+	$result =mysqli_query($db, $sql);
 	$numrows = mysqli_num_rows($result);
 
 	//订单号对应的数量大于等于1时显示结账按钮

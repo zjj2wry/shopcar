@@ -40,13 +40,13 @@ function showcart() {
 		if($_SESSION['SESS_LOGGEDIN']){
 // 			上层if检测用户是否登陆 如果已经登陆，就从orders表中选出符合用户id等于当前用户并且status等于0或1条件的那些行
 			$custsql = "SELECT id, status FROM orders WHERE customer_id = " . $_SESSION['SESS_USERID'] . " AND status < 2;";
-			$custres = mysqli_query($custsql);
+			$custres = mysqli_query($db, $custsql);
 			$custrow = mysqli_fetch_assoc($custrow);
 
 // 			执行主查询，获取已选商品的详细内容
 			$itemssql = "select products.*, orderitems.*, orderitems.id AS itemid FROM products, orderitems WHERE orderitems.product_id = products.id AND order_id = " . $custrow['id'];
 
-			$itemsres = mysqli_query($itemssql);
+			$itemsres = mysqli_query($db, $itemssql);
 			$itemnumrows = mysqli_num_rows($itemsres);
 		} else {
 			/* 如果用户尚未登陆，则执行一个类似的select查询以获取订单号，但
@@ -55,7 +55,7 @@ function showcart() {
 			$custsql = "SELECT id, status FROM orders WHERE session = '" . session_id() . "' AND status < 2;";
 			//var_dump($custsql);
 			//echo "****<br />";
-			$custres = mysqli_query($custsql);
+			$custres = mysqli_query($db, $custsql);
 			//var_dump($custres);
 			//echo "****<br />";
 			$custrow = mysqli_fetch_assoc($custres);
@@ -66,7 +66,7 @@ function showcart() {
 			//执行主查询，获取已选商品的详细内容
 			$itemssql = "select products.*, orderitems.*, orderitems.id AS itemid FROM products, orderitems WHERE orderitems.product_id = products.id AND order_id = " . $custrow['id'];
 			//var_dump($itemssql);
-			$itemsres = mysqli_query($itemssql);
+			$itemsres = mysqli_query($db, $itemssql);
 			$itemnumrows = mysqli_num_rows($itemsres);
 
 		}
@@ -114,7 +114,7 @@ function showcart() {
 // 				计算总价并插入到数据库orders表total字段
 				$total = $total +$quantitytotal;
 				$totalsql ="UPDATE orders SET total = ". $total . "WHERE id = " . $_SESSION['SESS_ORDERNUM'];
-				$totalres = mysqli_query($totalsql);
+				$totalres = mysqli_query($db, $totalsql);
 		} //while 结束
 
 		echo "<tr>";

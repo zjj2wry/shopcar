@@ -3,7 +3,7 @@
 <?php
 
 	$catsql = "SELECT * FROM categories;";
-	$catres = mysqli_query($catsql);
+	$catres = mysqli_query($db, $catsql);
 
 	//while查询商品分类并生成有序列表和相应的链接
 	while ($catrow = mysqli_fetch_assoc($catres)) {
